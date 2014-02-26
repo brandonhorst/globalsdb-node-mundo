@@ -37,9 +37,15 @@ is stored as
 
 ###Benchmarking
 
-    * 100000 Insertions of the above object:
+    * 10000 Insertions of the above object:
         - Globals: 3.269745131s
         - MongoDB: 1.410825992s
-    * 100000 Retrievals of those objects, by _id:
+    * 10000 Retrievals of those objects, by _id:
         - Globals: 4.642820684s
         - MongoDB: 1.166664768s
+
+###TODO
+
+	* Projections - these may give Globals an advantage
+	* Queries - this would be difficult
+	* Indexings
