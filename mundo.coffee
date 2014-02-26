@@ -43,9 +43,11 @@ class Global
         _id = obj._id
         delete obj._id
         subscripts = [_id]
-        @_set subscripts, 'o', => # DOES THIS NEED TO BE INDEPENDENT?
-            @_insert obj, subscripts, (err) =>
-                done(err)
+        async.parallel [
+            (done) => @_set subscripts, 'o', done
+            ,
+            (done) => @_insert obj, subscripts, done
+        ], done
 
     find: (obj, done) ->
         new Cursor @, obj
@@ -63,20 +65,24 @@ class Global
                 else if Array.isArray(obj) then 'a'
                 else 'o'
 
-        @_set subscripts, value, (err) => #DOES THIS NEED TO BE INDEPENDENT?
-            if value == 'a'
-                async.each [0...obj.length], (item, done) =>
-                    newSubscripts = subscripts.concat [item] # try with this as a string?
-                    value = @_insert obj[item], newSubscripts, done
-                , done
+        async.parallel [
+            (done) => @_set subscripts, value, done
+            ,
+            (done) =>
+                if value == 'a'
+                    async.each [0...obj.length], (item, done) =>
+                        newSubscripts = subscripts.concat [item] # try with this as a string?
+                        value = @_insert obj[item], newSubscripts, done
+                    , done
 
-            else if value == 'o'
-                async.each Object.keys(obj) , (key, done) =>
-                    newSubscripts = subscripts.concat [key]
-                    value = @_insert obj[key], newSubscripts, done
-                , done
-            else
-                done err
+                else if value == 'o'
+                    async.each Object.keys(obj) , (key, done) =>
+                        newSubscripts = subscripts.concat [key]
+                        value = @_insert obj[key], newSubscripts, done
+                    , done
+                else
+                    done null
+        ], done
 
     _retrieve: (subscripts, done) ->
         @_get subscripts, (err, value) =>
