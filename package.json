@@ -1,0 +1,23 @@
+{
+  "name": "globals-node",
+  "version": "0.0.0",
+  "description": "Globals Node Driver",
+  "main": "web.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "globalsdb nodejs mongodb"
+  ],
+  "author": "Brandon Horst",
+  "license": "MIT",
+  "dependencies": {
+    "mongodb": "~1.3.23",
+    "coffee-script": "~1.6.3",
+    "async": "~0.2.10"
+  },
+  "engines": {
+    "node": "0.10.24",
+    "npm": "1.3.23"
+  }
+}
