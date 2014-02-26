@@ -1,4 +1,4 @@
-node-globalsdb-remote
+globalsdb-node-mundo
 =====================
 
 An experiment replicating MongoDB-esque functionality in GlobalsDB/Cache.
